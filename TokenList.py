@@ -4,6 +4,8 @@ def token_list_convertor(equation: str) -> list:
     :param equation: equation as string
     :return: tokens list of the equation
     """
+    equation = equation.split()
+    equation = ''.join(equation)
     token_list = ['']
     char_index = 0
     while char_index < len(equation):
@@ -15,10 +17,6 @@ def token_list_convertor(equation: str) -> list:
             token_list.append('')
         char_index += 1
     token_list = list(filter(lambda x: x != '', token_list))
-    token_list = list(filter(lambda x: x != ' ', token_list))
-    print(token_list)
     return token_list
 
 
-expression = '  1236+43-(- 1.5)*(-2.5)'
-tokens_list = token_list_convertor(expression)
