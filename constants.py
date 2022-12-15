@@ -1,4 +1,8 @@
-from ExceptionThrower import *
+from ExceptionThrower import throw_exception
+
+"""
+This section of the file contains all the functions that are used in the calculator
+"""
 
 
 def plus(num1, num2):
@@ -50,14 +54,16 @@ def avg(num1, num2):
 
 
 def factorial(num):
-    if num < 1 or '.' not in str(num):
+    if num < 1 or num % 1 != 0:
         throw_exception('factorial')
-    if num == 1:
-        return 1
-    return num * factorial(num - 1)
+    for i in range(1, num):
+        num *= i
+    return num
 
 
 def digits_sum(num):
+    if 'e' in str(num):
+        throw_exception('digit_sum')
     res = 0
     for digit in str(num):
         if digit not in ['.', '-']:
@@ -68,6 +74,11 @@ def digits_sum(num):
 
 
 def is_number(token: str) -> bool:
+    """
+    This function check if the token is a number
+    :param token: the token to check
+    :return: True if the token is a number, False otherwise
+    """
     try:
         float(token)
         return True
@@ -75,6 +86,8 @@ def is_number(token: str) -> bool:
         return False
 
 
+"""
+This section of the file contains all the constants that are used in the calculator"""
 priority_dict = {'+': 1, '-': 1, '*': 2, '/': 2, '^': 3, '%': 4, '$': 5, '&': 5, '@': 5, '~': 6, '!': 6, '#': 6}
 operators_dict = {'+': plus, '-': minus, '*': multiply, '/': divide, '^': power, '%': mod, '$': maximum, '&': minimum,
                   '@': avg, '~': neg, '!': factorial, '#': digits_sum}
