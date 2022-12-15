@@ -24,6 +24,8 @@ def divide(num1, num2):
 
 
 def power(num1, num2):
+    if num1 == 0 and num2 == 0:
+        throw_exception('division_by_zero')
     try:
         res = pow(num1, num2)
     except OverflowError:
