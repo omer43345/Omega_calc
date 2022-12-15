@@ -56,13 +56,13 @@ def avg(num1, num2):
 def factorial(num):
     if num < 1 or num % 1 != 0:
         throw_exception('factorial')
-    for i in range(1, num):
+    for i in range(1, int(num)):
         num *= i
     return num
 
 
 def digits_sum(num):
-    if 'e' in str(num):
+    if 'e' in str(num) or 'inf' == str(num):
         throw_exception('digit_sum')
     res = 0
     for digit in str(num):

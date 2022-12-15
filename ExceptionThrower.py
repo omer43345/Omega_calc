@@ -6,10 +6,11 @@ error_message_dict = {
     'extra_token': 'you have entered an extra token in the end of the equation',
     'brackets': 'you have entered an invalid number of brackets',
     'operator': 'expect for operand in index',
+    'right': 'expect for operator that get 2 operands in index',
     'operand': 'expect for operator in index',
     'factorial': 'you can do factorial only on positive and natural numbers',
     'division_by_zero': 'you can not divide by zero',
-    'digit_sum': 'you can not do digit sum on numbers with e',
+    'digit_sum': 'you can not do digit sum on really big numbers',
     'EOF': 'you have entered an EOF, program closed',
     'KeyboardInterrupt': 'you have entered a Keyboard Interrupt, program closed'}
 
