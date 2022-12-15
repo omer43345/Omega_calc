@@ -24,7 +24,13 @@ def divide(num1, num2):
 
 
 def power(num1, num2):
-    return pow(num1, num2)
+    try:
+        res = pow(num1, num2)
+    except OverflowError:
+        return 'inf'
+    if type(res) == complex:
+        throw_exception('complex_number')
+    return res
 
 
 def mod(num1, num2):
@@ -54,6 +60,8 @@ def avg(num1, num2):
 
 
 def factorial(num):
+    if str(num) == 'inf':
+        return 'inf'
     if num < 1 or num % 1 != 0:
         throw_exception('factorial')
     for i in range(1, int(num)):

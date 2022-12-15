@@ -12,7 +12,8 @@ error_message_dict = {
     'division_by_zero': 'you can not divide by zero',
     'digit_sum': 'you can not do digit sum on really big numbers',
     'EOF': 'you have entered an EOF, program closed',
-    'KeyboardInterrupt': 'you have entered a Keyboard Interrupt, program closed'}
+    'KeyboardInterrupt': 'you have entered a Keyboard Interrupt, program closed',
+    'complex_number': 'the result of power can not be a complex number'}
 
 
 def create_error_message(reason: str):
