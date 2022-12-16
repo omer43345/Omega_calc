@@ -23,22 +23,16 @@ def create_error_message(reason: str):
 
 def throw_exception(reason: str, index: int = -1, exit_program: bool = False):
     """
-    This function let the user know what is the problem with the equation and restart the program if needed
+    This function raise an exception with the error message of the reason from the error_message_dict
     :param reason: the reason of the exception
     :param index: the index of the problem in the equation
     :param exit_program: if the program should exit after the exception
     :return:
     """
+    error_message = create_error_message(reason)
     if index != -1:
-        print(create_error_message(reason) + ' ' + str(index))
-    else:
-        print(create_error_message(reason))
+        error_message += ' ' + str(index)
     if exit_program:
+        print(error_message)
         exit()
-    restart()
-
-
-def restart():
-    # restart the program
-    from main import start
-    start()
+    raise Exception(error_message)

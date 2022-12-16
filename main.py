@@ -9,18 +9,16 @@ def start():
     """
     while True:
         print('enter equation or type exit to exit')
-
+        equation = ''
         try:
             equation = input()
         except EOFError:
             throw_exception('EOF', exit_program=True)
-            exit()
         except KeyboardInterrupt:
             throw_exception('KeyboardInterrupt', exit_program=True)
-            exit()
         if equation.lower() == 'exit':
             exit()
-        print(calculate(equation))
+        calculate(equation)
 
 
 start()

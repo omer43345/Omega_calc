@@ -5,10 +5,15 @@ from Infix_To_postfix import *
 
 def calculate(equation: str):
     """
-    This function get equation as string and calculate the equation if it is valid
+    This function get equation as string and calculate the equation if it is valid and print the result or the error message
     :param equation: equation as string
-    :return: the result of the equation
+    :return: the result of the equation or error
     """
-    token_list = validate(token_list_convertor(equation))
-    return postfixSolver(postfix_convertor(token_list))
-
+    try:
+        token_list = validate(token_list_convertor(equation))
+        res = postfixSolver(postfix_convertor(token_list))
+    except Exception as e:
+        print(e)
+        return 'error'
+    print(res)
+    return res
