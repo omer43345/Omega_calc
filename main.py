@@ -8,7 +8,7 @@ def start():
     :return:
     """
     while True:
-        print('enter equation or type exit to exit')
+        print('Please enter equation or type exit to exit')
         equation = ''
         try:
             equation = input()
@@ -21,4 +21,5 @@ def start():
         calculate(equation)
 
 
+print('\nWelcome to the omega calculator by Omer Hadad')
 start()

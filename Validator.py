@@ -36,6 +36,7 @@ def check_brackets(token_list: list):
     while index < len(token_list):
         if token_list[index] == '(':
             index = check_bracket_and_get_cl_bracket_index(token_list, index + 1)
+            index -= 1
         elif token_list[index] == ')':
             throw_exception('brackets')
         index += 1
@@ -67,7 +68,7 @@ def token_list_validator(token_list: list):
     :return:
     """
     next_item = 'operand.op_bracket.right'
-    if len(token_list) == 0 or not(any(is_number(token) for token in token_list)):
+    if len(token_list) == 0 or not (any(is_number(token) for token in token_list)):
         throw_exception('empty')
     index = 0
     for token in token_list:
@@ -169,10 +170,10 @@ def change_operator_or_sign(index: int, token_list: list) -> list:
     :param token_list: token list
     :return: token list with the changed operator or sign
     """
-    if index == 0 or token_list[index - 1] not in operators_that_changing_sign or token_list[index - 1] == '(':
+    if token_list[index - 1] in operators_that_changing_sign:
+        token_list[index - 1] = operators_that_changing_sign[(operators_that_changing_sign.index(token_list[index - 1]) + 1) % 2]
+    else:
         token_list = insert_unary_minus(index, token_list)
-    elif token_list[index - 1] in operators_that_changing_sign:
-        token_list[index - 1] = '+' if token_list[index - 1] == '-' else '-'
     return token_list
 
 

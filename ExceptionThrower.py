@@ -4,16 +4,17 @@ error_message_dict = {
     'unknown_char': 'equation can only contain numbers, operators and brackets, unknown char found at index',
     'empty': 'you must enter an equation that contains at least one number',
     'extra_token': 'you have entered an extra token in the end of the equation',
-    'brackets': 'you have entered an invalid number of brackets',
+    'brackets': 'you have invalid brackets in the equation',
     'operator': 'expect for operand in index',
     'right': 'expect for operator that get 2 operands in index',
     'operand': 'expect for operator in index',
     'factorial': 'you can do factorial only on positive and natural numbers',
     'division_by_zero': 'you can not divide by zero',
-    'digit_sum': 'you can not do digit sum on really big numbers',
+    'digit_sum': 'you can not do digit sum on really big or small numbers',
     'EOF': 'EOF error occurred, closing the program...',
     'KeyboardInterrupt': 'KeyboardInterrupt ,closing the program...',
-    'complex_number': 'the result of power can not be a complex number'}
+    'complex_number': 'the result of power can not be a complex number',
+    'number_too_big_or_small': 'the system can not calculate numbers too big or small', }
 
 
 def create_error_message(reason: str):
