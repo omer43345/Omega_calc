@@ -12,8 +12,8 @@ def calculate(equation: str):
     try:
         token_list = validate(token_list_convertor(equation))
         res = postfixSolver(postfix_convertor(token_list))
+        print('The result is: ' + str(res))
     except Exception as e:
         print(e)
         return 'error'
-    print(res)
     return res

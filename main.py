@@ -1,5 +1,6 @@
 from Calculator import calculate
 from ExceptionThrower import *
+from constants import *
 
 
 def start():
@@ -7,6 +8,7 @@ def start():
     This function is the main function of the program
     :return:
     """
+    print(WELCOME_MESSAGE)
     while True:
         print('Please enter equation or type exit to exit')
         equation = ''
@@ -21,5 +23,4 @@ def start():
         calculate(equation)
 
 
-print('\nWelcome to the omega calculator by Omer Hadad')
 start()

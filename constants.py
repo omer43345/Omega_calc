@@ -27,12 +27,12 @@ def power(num1, num2):
     if num1 == 0 and num2 == 0:
         throw_exception('division_by_zero')
     try:
-        res = pow(num1, num2)
+        num1 = pow(num1, num2)
     except OverflowError:
         throw_exception('number_too_big_or_small')
-    if type(res) == complex:
+    if type(num1) == complex:
         throw_exception('complex_number')
-    return res
+    return num1
 
 
 def mod(num1, num2):
@@ -62,8 +62,6 @@ def avg(num1, num2):
 
 
 def factorial(num):
-    if str(num) == 'inf':
-        return 'inf'
     if num < 1 or num % 1 != 0:
         throw_exception('factorial')
     for i in range(1, int(num)):
@@ -74,12 +72,9 @@ def factorial(num):
 
 
 def digits_sum(num):
-    if 'e' in str(num) or 'inf' == str(num):
+    if 'e' in str(num):
         throw_exception('digit_sum')
-    res = 0
-    for digit in str(num):
-        if digit not in ['.', '-']:
-            res += int(digit)
+    res = sum(int(digit) for digit in str(num) if digit.isdigit())
     if num < 0:
         res *= -1
     return res
@@ -101,10 +96,13 @@ def is_number(token: str) -> bool:
 """
 This section of the file contains all the constants that are used in the calculator"""
 priority_dict = {'+': 1, '-': 1, '*': 2, '/': 2, '^': 3, '%': 4, '$': 5, '&': 5, '@': 5, '~': 6, '!': 6, '#': 6}
-operators_dict = {'+': plus, '-': minus, '*': multiply, '/': divide, '^': power, '%': mod, '$': maximum, '&': minimum,
-                  '@': avg, '~': neg, '!': factorial, '#': digits_sum}
+operators_functions_dict = {'+': plus, '-': minus, '*': multiply, '/': divide, '^': power, '%': mod, '$': maximum,
+                            '&': minimum, '@': avg, '~': neg, '!': factorial, '#': digits_sum}
 side_of_operands = {'+': 'both', '-': 'both', '*': 'both', '/': 'both', '^': 'both', '%': 'both', '$': 'both',
                     '&': 'both', '@': 'both', '~': 'right', '!': 'left', '#': 'left'}
 what_should_come_next = {'operand': 'left.both.cl_bracket', 'both': 'operand.right.op_bracket',
                          'right': 'operand', 'left': 'left.both.cl_bracket'}
 operators_that_changing_sign = ['+', '-']
+operators_names_dict = {'+': 'plus', '-': 'minus', '*': 'multiply', '/': 'divide', '^': 'power', '%': 'mod',
+                        '$': 'maximum', '&': 'minimum', '@': 'avg', '~': 'neg', '!': 'factorial', '#': 'digits_sum'}
+WELCOME_MESSAGE = f'\nWelcome to the omega calculator, in this calculator you can do the following operations:\n {operators_names_dict} \n You can also use brackets, spaces and unary minuses in your equation  \n'

@@ -22,7 +22,7 @@ def char_validation(token_list: list):
     :return:
     """
     for token in token_list:
-        if not (is_number(token) or operators_dict.get(token) or token in ['(', ')']):
+        if not (is_number(token) or operators_functions_dict.get(token) or token in ['(', ')']):
             throw_exception('unknown_char', token_list.index(token))
 
 
@@ -38,7 +38,7 @@ def check_brackets(token_list: list):
             index = check_bracket_and_get_cl_bracket_index(token_list, index + 1)
             index -= 1
         elif token_list[index] == ')':
-            throw_exception('brackets')
+            throw_exception('brackets', index)
         index += 1
 
 
@@ -58,7 +58,7 @@ def check_bracket_and_get_cl_bracket_index(token_list: list, index: int) -> int:
         index += 1
     if num_of_brackets == 0:
         return index
-    throw_exception('brackets')
+    throw_exception('brackets', index)
 
 
 def token_list_validator(token_list: list):
@@ -74,13 +74,11 @@ def token_list_validator(token_list: list):
     for token in token_list:
         list_next = next_item.split('.')
         if not is_token_valid(list_next, token):
-            if token == token_list[- 1]:
-                throw_exception('extra_token')
-            throw_exception(get_reason(token), index)
+            throw_exception(get_reason(token), index - 1)
         next_item = get_next(token)
         index += 1
     if what_should_come_next.get('operand') != next_item:
-        throw_exception('extra_token')
+        throw_exception(get_reason(token_list[-1]), index - 1)
 
 
 def get_reason(token: str) -> str:
@@ -171,7 +169,8 @@ def change_operator_or_sign(index: int, token_list: list) -> list:
     :return: token list with the changed operator or sign
     """
     if token_list[index - 1] in operators_that_changing_sign:
-        token_list[index - 1] = operators_that_changing_sign[(operators_that_changing_sign.index(token_list[index - 1]) + 1) % 2]
+        token_list[index - 1] = operators_that_changing_sign[
+            (operators_that_changing_sign.index(token_list[index - 1]) + 1) % 2]
     else:
         token_list = insert_unary_minus(index, token_list)
     return token_list

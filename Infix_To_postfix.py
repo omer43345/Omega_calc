@@ -43,9 +43,9 @@ def postfixSolver(exp: list) -> int:
             val1 = stack.pop()
             if side_of_operands[character] == 'both':
                 val2 = stack.pop()
-                stack.append(operators_dict[character](float(val2), float(val1)))
+                stack.append(operators_functions_dict[character](float(val2), float(val1)))
             else:
-                stack.append(operators_dict[character](float(val1)))
+                stack.append(operators_functions_dict[character](float(val1)))
     return stack.pop()
 
 
