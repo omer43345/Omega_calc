@@ -46,6 +46,8 @@ def postfixSolver(exp: list) -> int:
                 stack.append(operators_functions_dict[character](float(val2), float(val1)))
             else:
                 stack.append(operators_functions_dict[character](float(val1)))
+        if 'inf' in str(stack[-1]):
+            throw_exception('number_too_big_or_small')
     return stack.pop()
 
 

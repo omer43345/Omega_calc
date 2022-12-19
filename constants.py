@@ -29,7 +29,9 @@ def power(num1, num2):
     try:
         num1 = pow(num1, num2)
     except OverflowError:
-        throw_exception('number_too_big_or_small')
+        if num1 < 0 and num2 % 2 != 0:
+            return '-inf'
+        return 'inf'
     if type(num1) == complex:
         throw_exception('complex_number')
     return num1
@@ -67,7 +69,7 @@ def factorial(num):
     for i in range(1, int(num)):
         num *= i
         if str(num) == 'inf':
-            throw_exception('number_too_big_or_small')
+            return 'inf'
     return num
 
 
