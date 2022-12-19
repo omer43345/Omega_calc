@@ -2,17 +2,15 @@ from constants import *
 from ExceptionThrower import throw_exception
 
 
-def validate(token_list: list) -> list:
+def validate(token_list: list):
     """
     This function get token list and validate it
     :param token_list: token list
-    :return: token list
+    :return:
     """
     char_validation(token_list)
     check_brackets(token_list)
-    token_list = remove_unwanted_minuses(token_list)
     token_list_validator(token_list)
-    return token_list
 
 
 def char_validation(token_list: list):
@@ -23,7 +21,7 @@ def char_validation(token_list: list):
     """
     for token in token_list:
         if not (is_number(token) or operators_functions_dict.get(token) or token in ['(', ')']):
-            throw_exception('unknown_char', token_list.index(token))
+            throw_exception('unknown_char', token, token_list.index(token))
 
 
 def check_brackets(token_list: list):
@@ -38,7 +36,7 @@ def check_brackets(token_list: list):
             index = check_bracket_and_get_cl_bracket_index(token_list, index + 1)
             index -= 1
         elif token_list[index] == ')':
-            throw_exception('brackets', index)
+            throw_exception('not_opened', ')', index)
         index += 1
 
 
@@ -50,15 +48,17 @@ def check_bracket_and_get_cl_bracket_index(token_list: list, index: int) -> int:
     :return: index of the closing bracket
     """
     num_of_brackets = 1
+    index_of_op_bracket = index - 1
     while index < len(token_list) and num_of_brackets > 0:
         if token_list[index] == '(':
+            index_of_op_bracket = index
             num_of_brackets += 1
         elif token_list[index] == ')':
             num_of_brackets -= 1
         index += 1
     if num_of_brackets == 0:
         return index
-    throw_exception('brackets', index)
+    throw_exception('not_closed', '(', index_of_op_bracket)
 
 
 def token_list_validator(token_list: list):
@@ -67,18 +67,22 @@ def token_list_validator(token_list: list):
     :param token_list: token list
     :return:
     """
-    next_item = 'operand.op_bracket.right'
-    if len(token_list) == 0 or not (any(is_number(token) for token in token_list)):
-        throw_exception('empty')
+    next_item = what_should_come_next.get('both')
     index = 0
+    if not token_list:
+        throw_exception('empty')
     for token in token_list:
         list_next = next_item.split('.')
         if not is_token_valid(list_next, token):
-            throw_exception(get_reason(token), index - 1)
+            if index == 0:
+                throw_exception('start', token)
+            throw_exception(get_reason(token), token, index)
+        if side_of_operands.get(token) == 'right':
+            check_right_operators(token_list, index + 1)
         next_item = get_next(token)
         index += 1
     if what_should_come_next.get('operand') != next_item:
-        throw_exception(get_reason(token_list[-1]), index - 1)
+        throw_exception('end', token_list[-1])
 
 
 def get_reason(token: str) -> str:
@@ -103,6 +107,8 @@ def is_token_valid(list_next: list, token: str) -> bool:
     :return: True if the token is valid, False otherwise
     """
     for item in list_next:
+        if item == 'unary_minus' and token == '-':
+            return True
         if item == side_of_operands.get(token):
             return True
         if item == 'operand' and (is_number(token) or token == '('):
@@ -126,70 +132,15 @@ def get_next(token: str) -> str:
         return what_should_come_next.get('both')
 
 
-def remove_unwanted_minuses(token_list: list) -> list:
+def check_right_operators(token_list: list, index: int):
     """
-    This function get token list and remove the minuses that are not needed
+    This function get token list and index and check if there is a right operator after the index before operand
     :param token_list: token list
-    :return: token list without the minuses that are not needed
+    :param index: index of the right operator
+    :return:
     """
-    index = 0
-    while index < len(token_list):
-        if token_list[index] == '-' and (index == 0 or can_remove_minus(token_list[index - 1])):
-            [token_list, should_change_list] = remove_minuses(index, token_list)
-            if should_change_list and index < len(token_list):
-                token_list = change_operator_or_sign(index, token_list)
-        index += 1
-    return token_list
-
-
-def remove_minuses(index: int, token_list: list) -> list:
-    """
-    This function get index and token list and remove the minuses that are not needed from the index
-    :param index: index
-    :param token_list: token list
-    :return: token list without the minuses that are not needed from the index
-    """
-    should_change_list = False
-    while index < len(token_list) and token_list[index] == '-':
-        token_list.pop(index)
-        should_change_list = not should_change_list
-    return [token_list, should_change_list]
-
-
-def can_remove_minus(token: str) -> bool:
-    # this function get token before the minus and check if the minus can be removed
-    return side_of_operands.get(token) in ['both', 'right'] or token == '('
-
-
-def change_operator_or_sign(index: int, token_list: list) -> list:
-    """
-    This function get index and token list and change the operator or sign
-    :param index: index
-    :param token_list: token list
-    :return: token list with the changed operator or sign
-    """
-    if token_list[index - 1] in operators_that_changing_sign:
-        token_list[index - 1] = operators_that_changing_sign[
-            (operators_that_changing_sign.index(token_list[index - 1]) + 1) % 2]
-    else:
-        token_list = insert_unary_minus(index, token_list)
-    return token_list
-
-
-def insert_unary_minus(index: int, token_list: list) -> list:
-    """
-    This function get index and token list and insert unary minus
-    :param index: index
-    :param token_list: token list
-    :return: token list with the inserted unary minus
-    """
-    if token_list[index] == '(':
-        token_list.insert(index, '(')
-        token_list.insert(index + 1, '-1')
-        token_list.insert(index + 2, '*')
-        token_list.insert(check_bracket_and_get_cl_bracket_index(token_list, index + 4), ')')
-    elif is_number(token_list[index]):
-        token_list[index] = str(float(token_list[index]) * -1)
-    elif side_of_operands.get(token_list[index]) == 'right':
-        token_list.insert(index + 1, '-')
-    return token_list
+    for i in range(index, len(token_list)):
+        if side_of_operands.get(token_list[i]) == 'right':
+            throw_exception('right', token_list[i], i)
+        elif token_list[i] != '-':
+            return None

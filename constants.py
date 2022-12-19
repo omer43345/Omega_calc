@@ -72,8 +72,6 @@ def factorial(num):
 
 
 def digits_sum(num):
-    if 'e' in str(num):
-        throw_exception('digit_sum')
     res = sum(int(digit) for digit in str(num) if digit.isdigit())
     if num < 0:
         res *= -1
@@ -100,8 +98,8 @@ operators_functions_dict = {'+': plus, '-': minus, '*': multiply, '/': divide, '
                             '&': minimum, '@': avg, '~': neg, '!': factorial, '#': digits_sum}
 side_of_operands = {'+': 'both', '-': 'both', '*': 'both', '/': 'both', '^': 'both', '%': 'both', '$': 'both',
                     '&': 'both', '@': 'both', '~': 'right', '!': 'left', '#': 'left'}
-what_should_come_next = {'operand': 'left.both.cl_bracket', 'both': 'operand.right.op_bracket',
-                         'right': 'operand', 'left': 'left.both.cl_bracket'}
+what_should_come_next = {'operand': 'left.both.cl_bracket', 'both': 'operand.right.op_bracket.unary_minus',
+                         'right': 'operand.unary_minus', 'left': 'left.both.cl_bracket'}
 operators_that_changing_sign = ['+', '-']
 operators_names_dict = {'+': 'plus', '-': 'minus', '*': 'multiply', '/': 'divide', '^': 'power', '%': 'mod',
                         '$': 'maximum', '&': 'minimum', '@': 'avg', '~': 'neg', '!': 'factorial', '#': 'digits_sum'}

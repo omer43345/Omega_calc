@@ -22,8 +22,7 @@ def test_my_program():
     This function test the program by comparing the results of the program to the expected results from the dictionary
     :return:
     """
-    print('\n\n')
+    print('\n')
     for equation in expressions.keys():
-        print(equation, end=' =')
-        assert calculate(equation) == expressions.get(equation)
         print()
+        assert calculate(equation) == expressions.get(equation)

@@ -1,6 +1,7 @@
 from TokenList import *
 from Validator import validate
 from Infix_To_postfix import *
+from minus_handler import remove_unwanted_minuses
 
 
 def calculate(equation: str):
@@ -9,10 +10,15 @@ def calculate(equation: str):
     :param equation: equation as string
     :return: the result of the equation or error
     """
+    token_list = token_list_convertor(equation)
+    for token in token_list:
+        print(token, end='')
+    print('=>', end=' ')
     try:
-        token_list = validate(token_list_convertor(equation))
+        validate(token_list)
+        token_list = remove_unwanted_minuses(token_list)
         res = postfixSolver(postfix_convertor(token_list))
-        print('The result is: ' + str(res))
+        print(str(res))
     except Exception as e:
         print(e)
         return 'error'
