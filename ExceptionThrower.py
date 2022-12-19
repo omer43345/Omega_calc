@@ -15,7 +15,6 @@ start_and_end_error_message_dict = {'start': 'the equation can not start with %s
 arithmetic_error_message_dict = {
     'division_by_zero': 'you can not divide by zero',
     'factorial': 'you can do factorial only on positive and natural numbers',
-    'digit_sum': 'you can not do digit sum on really big or small numbers',
     'complex_number': 'the result of power can not be a complex number',
     'number_too_big_or_small': 'the system can not calculate numbers too big or small'}
 exit_error_message = {'EOF': 'EOF error occurred, closing the program...',
